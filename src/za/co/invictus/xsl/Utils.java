@@ -4,11 +4,24 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Utils {
+	
+	/**
+	 * 
+	 * @param i1
+	 * @param i2
+	 * @return
+	 */
 	public static boolean compare(String i1, String i2) {
 		System.out.println("item 1=" + i1 + ", item 2=" + i2);
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param q1
+	 * @param q2
+	 * @return
+	 */
 	public static boolean compareQueues(NodeList q1, NodeList q2) {
 		
 		if ((q1.getLength() == q2.getLength()) == false) {
