@@ -1,5 +1,11 @@
 package za.co.invictus.xsl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -53,4 +59,28 @@ public class Utils {
 		
 	}
 	
+	public static String bonusBuyFileName(String filePrefix,String branchCode,String sourceMessageMessageID,String sourceCreationDateTime,String fileExtension){
+		if(filePrefix==null) filePrefix = "";
+		String dateTime=convertUTCtoSouthAfricaTimezone("yyyy-MM-dd'T'HH:mm:ss'Z'", sourceCreationDateTime, "yyyyMMddHHmmss"
+				+ "");
+		String fileName=filePrefix+"."+branchCode+"."+dateTime+"."+sourceMessageMessageID+"."+fileExtension;
+		return fileName;
+	}
+	
+	
+	public static String convertUTCtoSouthAfricaTimezone(String utcDateTimeFormat,String utcDate,String southAfricaDateTimeFormat){
+	
+		DateFormat utcFormat = new SimpleDateFormat(utcDateTimeFormat);
+		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date utcdate=null;
+		try {
+			utcdate = utcFormat.parse(utcDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DateFormat saFormat = new SimpleDateFormat(southAfricaDateTimeFormat);
+		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
+		return saFormat.format(utcdate);
+	}
 }
