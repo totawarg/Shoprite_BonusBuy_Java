@@ -83,4 +83,21 @@ public class Utils {
 		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
 		return saFormat.format(utcdate);
 	}
+	
+
+	public static String convertUTCtoSouthAfricaTimezone(String utcDate){
+	
+		DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date utcdate=null;
+		try {
+			utcdate = utcFormat.parse(utcDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DateFormat saFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
+		return saFormat.format(utcdate);
+	}
 }
