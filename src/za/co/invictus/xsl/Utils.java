@@ -6,11 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Utils {
-	
+
 	/**
 	 * 
 	 * @param i1
@@ -21,7 +22,7 @@ public class Utils {
 		System.out.println("item 1=" + i1 + ", item 2=" + i2);
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param q1
@@ -29,50 +30,59 @@ public class Utils {
 	 * @return
 	 */
 	public static boolean compareQueues(NodeList q1, NodeList q2) {
-		
+
 		if ((q1.getLength() == q2.getLength()) == false) {
 			return false;
 		}
-		
-		for (int i=0; i<q1.getLength(); i++) {
-			//System.out.println("comparing " + q1.item(i).getTextContent() + " to " + q2.item(i).getTextContent());
+
+		for (int i = 0; i < q1.getLength(); i++) {
 			
+			
+			 System.out.println("comparing " + q1.item(i).getTextContent()+
+			 " to " + q2.item(i));
+
 			String v1 = q1.item(i).getTextContent();
-			
+
 			Node i2 = q2.item(i);
 			String v2 = null;
-			
+
 			if (i2 != null) {
 				v2 = i2.getTextContent();
 			}
-			
+
 			if (v2 == null) {
 				return false;
 			}
-			
+
 			if (v1.matches(v2) == false) {
 				return false;
 			}
 		}
-		
+
 		return true;
-		
+
 	}
-	
-	public static String bonusBuyFileName(String filePrefix,String branchCode,String sourceMessageMessageID,String sourceCreationDateTime,String fileExtension){
-		if(filePrefix==null) filePrefix = "";
-		String dateTime=convertUTCtoSouthAfricaTimezone("yyyy-MM-dd'T'HH:mm:ss'Z'", sourceCreationDateTime, "yyyyMMddHHmmss"
-				+ "");
-		String fileName=filePrefix+"."+branchCode+"."+dateTime+"."+sourceMessageMessageID+"."+fileExtension;
+
+	public static String bonusBuyFileName(String filePrefix, String branchCode,
+			String sourceMessageMessageID, String sourceCreationDateTime,
+			String fileExtension) {
+		if (filePrefix == null)
+			filePrefix = "";
+		String dateTime = convertUTCtoSouthAfricaTimezone(
+				"yyyy-MM-dd'T'HH:mm:ss'Z'", sourceCreationDateTime,
+				"yyyyMMddHHmmss" + "");
+		String fileName = filePrefix + "." + branchCode + "." + dateTime + "."
+				+ sourceMessageMessageID + "." + fileExtension;
 		return fileName;
 	}
-	
-	
-	public static String convertUTCtoSouthAfricaTimezone(String utcDateTimeFormat,String utcDate,String southAfricaDateTimeFormat){
-	
+
+	public static String convertUTCtoSouthAfricaTimezone(
+			String utcDateTimeFormat, String utcDate,
+			String southAfricaDateTimeFormat) {
+
 		DateFormat utcFormat = new SimpleDateFormat(utcDateTimeFormat);
 		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date utcdate=null;
+		Date utcdate = null;
 		try {
 			utcdate = utcFormat.parse(utcDate);
 		} catch (ParseException e) {
@@ -83,13 +93,17 @@ public class Utils {
 		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
 		return saFormat.format(utcdate);
 	}
-	
 
-	public static String convertUTCtoSouthAfricaTimezone(String utcDate){
-	
+	/**
+	 * 
+	 * @param utcDate yyyy-MM-dd'T'HH:mm:ss'Z'to yyyyMMddHHmmss
+	 * @return
+	 */
+	public static String convertUTCtoSouthAfricaTimezone(String utcDate) {
+
 		DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date utcdate=null;
+		Date utcdate = null;
 		try {
 			utcdate = utcFormat.parse(utcDate);
 		} catch (ParseException e) {
@@ -97,6 +111,28 @@ public class Utils {
 			e.printStackTrace();
 		}
 		DateFormat saFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
+		return saFormat.format(utcdate);
+	}
+
+	/**
+	 * UTC yyyy-MM-dd'T'HH:mm:ss'Z' to yyyy-MM-dd
+	 * 
+	 * @param utcDate
+	 * @return
+	 */
+	public static String convertUTCtoSouthAfricaTimezone2(String utcDate) {
+
+		DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date utcdate = null;
+		try {
+			utcdate = utcFormat.parse(utcDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DateFormat saFormat = new SimpleDateFormat("yyyy-MM-dd");
 		saFormat.setTimeZone(TimeZone.getTimeZone("Africa/Johannesburg"));
 		return saFormat.format(utcdate);
 	}
