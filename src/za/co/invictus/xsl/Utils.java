@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class Utils {
 	
-	/**
+	/** 
 	 * 
 	 * @param i1
 	 * @param i2
@@ -35,15 +35,15 @@ public class Utils {
 		}
 		
 		for (int i=0; i<q1.getLength(); i++) {
-			//System.out.println("comparing " + q1.item(i).getTextContent() + " to " + q2.item(i).getTextContent());
+			System.out.println("comparing " + getFirstLevelTextContent(q1.item(i)) + " to " + getFirstLevelTextContent(q2.item(i)));
 			
-			String v1 = q1.item(i).getTextContent();
+			String v1 = getFirstLevelTextContent(q1.item(i));
 			
 			Node i2 = q2.item(i);
 			String v2 = null;
 			
 			if (i2 != null) {
-				v2 = i2.getTextContent();
+				v2 = getFirstLevelTextContent(i2);
 			}
 			
 			if (v2 == null) {
@@ -57,6 +57,17 @@ public class Utils {
 		
 		return true;
 		
+	}
+	
+	public static String getFirstLevelTextContent(Node node) {
+	    NodeList list = node.getChildNodes();
+	    StringBuilder textContent = new StringBuilder();
+	    for (int i = 0; i < list.getLength(); ++i) {
+	        Node child = list.item(i);
+	        if (child.getNodeType() == Node.TEXT_NODE)
+	            textContent.append(child.getTextContent());
+	    }
+	    return textContent.toString();
 	}
 	
 	public static String bonusBuyFileName(String filePrefix,String branchCode,String sourceMessageMessageID,String sourceCreationDateTime,String fileExtension){
